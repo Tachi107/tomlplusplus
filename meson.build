@@ -366,7 +366,7 @@ compiler_supports_consteval_properly = compiler_supports_consteval and not compi
 
 float_16_preprocessor_single_check_template = '''
 	#ifndef @0@
-		#error @0@ wasn't defined!
+		#error @0@ wasn t defined!
 	#else
 		#pragma message("@0@: " MAKE_STRING(@0@))
 	#endif
@@ -427,7 +427,7 @@ endif
 
 compiler_supports_int128 = compiler.links('''
 	#ifndef __SIZEOF_INT128__
-		#error __SIZEOF_INT128__ wasn't defined!
+		#error __SIZEOF_INT128__ wasn t defined!
 	#endif
 
 	#include <cstdint>
@@ -452,13 +452,13 @@ compiler_supports_int128 = compiler.links('''
 
 compiler_supports_float128 = compiler.links('''
 	#ifndef __SIZEOF_FLOAT128__
-		#error __SIZEOF_FLOAT128__ wasn't defined!
+		#error __SIZEOF_FLOAT128__ wasn t defined!
 	#endif
 	#ifndef __FLT128_MANT_DIG__
-		#error __FLT128_MANT_DIG__ wasn't defined!
+		#error __FLT128_MANT_DIG__ wasn t defined!
 	#endif
 	#ifndef __LDBL_MANT_DIG__
-		#error __LDBL_MANT_DIG__ wasn't defined!
+		#error __LDBL_MANT_DIG__ wasn t defined!
 	#endif
 	#if __FLT128_MANT_DIG__ <= __LDBL_MANT_DIG__
 		#error __FLT128_MANT_DIG__ was <= __LDBL_MANT_DIG__
@@ -501,50 +501,22 @@ if build_tt
 	subdir('toml-test')
 endif
 
+include_dir = include_directories('include')
+
+tomlplusplus_dep = dependency('', required: false)
+
+if get_option('compile_library')
+	subdir('lib')
+else
+	subdir('include')
+endif
+
 if not is_subproject
-	install_subdir('include'/'toml++',
-		strip_directory: true,
-		install_dir: get_option('includedir')/'toml++'
-	)
+	install_subdir('include'/'toml++', install_dir: get_option('includedir'))
 endif
 
 #######################################################################################################################
 # dependencies, cmake etc.
 #######################################################################################################################
 
-tomlplusplus_dep = declare_dependency(include_directories: 'include')
-
 meson.override_dependency(meson.project_name(), tomlplusplus_dep)
-
-if not is_subproject
-	import('pkgconfig').generate(
-		name: meson.project_name(),
-		description: 'Header-only TOML config file parser and serializer for C++',
-		install_dir: get_option('datadir')/'pkgconfig',
-	)
-endif
-
-# cmake
-if get_option('generate_cmake_config') and not is_subproject
-	cmake = import('cmake')
-	# Can't use until Meson 0.62.0, see https://github.com/mesonbuild/meson/pull/9916
-	# and https://github.com/marzer/tomlplusplus/issues/140
-	#cmake.write_basic_package_version_file(
-	#	name: meson.project_name(),
-	#	version: meson.project_version(),
-	#	install_dir: get_option('datadir')/'cmake'/meson.project_name(),
-	#	arch_independent: true
-	#)
-	# In the meantime, install a pre-generated Package Version file
-	install_data(
-		'cmake'/'tomlplusplusConfigVersion.cmake',
-		install_dir: get_option('datadir')/'cmake'/meson.project_name()
-	)
-
-	cmake.configure_package_config_file(
-		name: meson.project_name(),
-		input: 'cmake'/'tomlplusplus.cmake.in',
-		configuration: configuration_data(), # empty conf, not needed
-		install_dir: get_option('datadir')/'cmake'/meson.project_name(),
-	)
-endif

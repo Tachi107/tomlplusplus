@@ -7,4 +7,4 @@ option('asan_examples',			type: 'boolean', value: false)
 option('asan_tests',			type: 'boolean', value: false)
 option('build_tt_encoder',		type: 'boolean', value: false,	description: 'Enable to build the toml-test encoder.')
 option('build_tt_decoder',		type: 'boolean', value: false,	description: 'Enable to build the toml-test decoder.')
-
+option('compile_library', 		type: 'boolean', value: false,	description: 'Compile the library')
