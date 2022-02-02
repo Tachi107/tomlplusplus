@@ -28,10 +28,12 @@ if get_option('generate_cmake_config') and not is_subproject
 		install_dir: get_option('datadir')/'cmake'/meson.project_name()
 	)
 
+	cmake_conf = configuration_data({'includedir': get_option('includedir')}
+
 	cmake.configure_package_config_file(
 		name: meson.project_name(),
 		input: '..'/'cmake'/'tomlplusplus.cmake.in',
-		configuration: configuration_data(), # empty conf, not needed
+		configuration: cmake_conf,
 		install_dir: get_option('datadir')/'cmake'/meson.project_name(),
 	)
 endif

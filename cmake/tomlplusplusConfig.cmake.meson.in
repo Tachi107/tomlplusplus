@@ -3,10 +3,15 @@
 # If tomlplusplus::tomlplusplus target is not defined it will be included
 if(NOT TARGET tomlplusplus::tomlplusplus)
 
+  if (@compile_library@)
+    set(imported_type UNKNOWN)
+  else()
+    set(imported_type INTERFACE)
+  endif()
   # Import tomlplusplus interface library
-  add_library(tomlplusplus::tomlplusplus UNKNOWN IMPORTED)
+  add_library(tomlplusplus::tomlplusplus ${imported_type} IMPORTED)
   set_target_properties(tomlplusplus::tomlplusplus PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PACKAGE_PREFIX_DIR}/include")
+    INTERFACE_INCLUDE_DIRECTORIES "${PACKAGE_PREFIX_DIR}/@includedir@")
 
   # Require C++17
   target_compile_features(tomlplusplus::tomlplusplus INTERFACE cxx_std_17)

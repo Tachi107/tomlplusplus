@@ -38,6 +38,7 @@ if get_option('generate_cmake_config') and not is_subproject
 
 	cmake_conf = configuration_data({
 		'compile_library': get_option('compile_library'),
+		'includedir': get_option('includedir'),
 		'libdir': get_option('libdir'),
 		'lib_name': lib_name
 	})
