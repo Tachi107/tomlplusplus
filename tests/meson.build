@@ -37,6 +37,13 @@ else
 	run_command('git', 'submodule', 'update', '--init', '--depth', '1', meson.source_root()/'subprojects'/'Catch2')
 endif
 
+# When building offline, skip the tloptional test
+has_tloptional = false
+run_command('git', 'submodule', 'update', '--init', '--depth', '1', meson.source_root()/'subprojects'/'tloptional', check: false)
+if import('fs').exists(meson.source_root()/'subprojects'/'optional'/'include'/'tl'/'optional.hpp')
+	has_tloptional = true
+endif
+
 #######################################################################################################################
 # fast math check
 #######################################################################################################################
@@ -98,7 +105,7 @@ foreach cpp20 : cpp20_modes
 				test_args += test_base_args
 
 				single_header = (counter % 2 == 1)
-				tl_optional = (counter % 4 == 2 and exceptions and not get_option('compile_library'))
+				tl_optional = (counter % 4 == 2 and exceptions and not get_option('compile_library') and has_tloptional)
 				address_sanitizer = (is_clang and not (single_header or tl_optional or fast_math)) and get_option('asan_tests')
 
 				if cpp20
