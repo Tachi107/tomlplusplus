@@ -13,7 +13,7 @@ For this document to make sense, you will need to:
 2. Add `toml-test` as an alias or have it on the system PATH
 3. Clone the toml++ repository's [nlohmann/json] submodule:
 ```bash
-git submodule update --init --depth 1 external/json
+git submodule update --init --depth 1 subprojects/json
 ```
 4. **Linux only:** Install `ninja` and `meson`:
 ```bash

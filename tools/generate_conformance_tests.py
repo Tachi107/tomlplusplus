@@ -583,7 +583,7 @@ def write_test_file(name, all_tests):
 
 
 def main():
-	extern_root = Path(utils.entry_script_dir(), '..', 'external').resolve()
+	extern_root = Path(utils.entry_script_dir(), '..', 'subprojects').resolve()
 	utils.assert_existing_directory(extern_root)
 	assert extern_root.exists()
 	all_tests = { 'valid': dict(), 'invalid': dict() }
