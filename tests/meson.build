@@ -26,6 +26,17 @@ test_sources = [
 	'windows_compat.cpp'
 ]
 
+test_deps = []
+
+test_deps += dependency('nlohmann_json', fallback: ['json', 'nlohmann_json_dep'])
+
+catch2_dep = dependency('catch2', required: false)
+if catch2_dep.found()
+	test_deps += catch2_dep
+else
+	run_command('git', 'submodule', 'update', '--init', '--depth', '1', meson.source_root()/'subprojects'/'Catch2')
+endif
+
 #######################################################################################################################
 # fast math check
 #######################################################################################################################

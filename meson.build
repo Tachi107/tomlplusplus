@@ -459,8 +459,6 @@ endif
 
 build_tests = get_option('build_tests') and not is_subproject
 if build_tests
-	run_command('git', 'submodule', 'update', '--init', '--depth', '1', 'subprojects/Catch2')
-	run_command('git', 'submodule', 'update', '--init', '--depth', '1', 'subprojects/tloptional')
 	subdir('tests')
 endif
 
